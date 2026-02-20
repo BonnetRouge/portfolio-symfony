@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 60px;
+    }
+    
+    .about-hero h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        margin: 0;
+    }
+    
+    .about-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 60px 40px;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    
+    .about-content p {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        color: #555;
+        text-align: center;
+        margin: 0;
+    }
+    
+    .about-icon {
+        font-size: 5rem;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .feature-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        margin-top: 40px;
+        text-align: center;
+    }
+    
+    .feature-box h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .feature-box p {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="about-hero">
+    <div class="container">
+        <h1>📖 À propos</h1>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="about-content">
+        <div class="about-icon"></div>
+        <h2 class="text-center mb-4" style="color: #667eea; font-weight: bold;">À propos de mon application</h2>
+        <p>Bienvenue sur mon portfolio Symfony ! Ces applications présentent mes compétences en développement web et mes différents projets réalisés avec passion.</p>
+        
+        <div class="feature-box">
+            <h3>🎯 Technologies utilisées</h3>
+            <p>Symfony • PHP • Twig • Bootstrap • CSS3</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

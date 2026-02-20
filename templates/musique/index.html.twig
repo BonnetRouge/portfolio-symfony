@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Apprendre la Musique{% endblock %}
+
+{% block main %}
+
+<div class="musique-hero">
+    <h1>🎵 Cours de Musique en Ligne</h1>
+    <p>Apprenez la musique à votre rythme avec nos cours interactifs</p>
+</div>
+
+<div class="container my-5">
+
+    <div class="progress-section mb-5">
+        <div class="d-flex justify-content-between mb-2">
+            <strong>Ta progression globale</strong>
+            <span id="progress-label">0 / {{ cours|length }}</span>
+        </div>
+        <div class="progress" style="height: 20px; border-radius: 10px;">
+            <div id="progress-bar" class="progress-bar" role="progressbar"
+                 style="width: 0%; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px;">
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mb-4">📚 Catalogue de cours</h2>
+    <div class="row g-4">
+        {% for cour in cours %}
+        <div class="col-md-6">
+            <div class="cours-card" id="cours-{{ cour.id }}">
+                <div class="cours-header">
+                    <span class="cours-icone">{{ cour.icone }}</span>
+                    <div>
+                        <h5>{{ cour.titre }}</h5>
+                        <small>⏱ {{ cour.duree }}</small>
+                    </div>
+                    <span class="niveau-badge niveau-{{ cour.niveau|lower|replace({' ': '-', 'é': 'e'}) }}">
+                        {{ cour.niveau }}
+                    </span>
+                </div>
+                <p class="cours-desc">{{ cour.description }}</p>
+                <div class="cours-buttons">
+                    <a href="{{ path('app_demo_musique_cours', {id: cour.id}) }}" class="btn-cours">
+                        ▶ Commencer le cours
+                    </a>
+                    <button class="btn-valider-cours" id="btn-{{ cour.id }}" onclick="validerCours({{ cour.id }})">
+                        ✅ Marquer comme fait
+                    </button>
+                </div>
+                <div class="done-msg d-none" id="done-{{ cour.id }}">
+                    🎉 Cours complété !
+                    <button class="btn-undo" onclick="annulerCours({{ cour.id }})">Annuler</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{{ path('app_demo_musique_progression') }}" class="btn-progression">
+            📈 Voir ma progression
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .musique-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; padding: 80px 20px 50px; text-align: center;
+    }
+    .musique-hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+    .musique-hero p  { font-size: 1.1rem; opacity: 0.85; }
+
+    .progress-section {
+        background: white; border-radius: 16px;
+        padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+
+    .cours-card {
+        background: white; border-radius: 16px; padding: 25px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        border: 2px solid #f0f0f0; transition: all 0.3s;
+    }
+    .cours-card.done { border-color: #667eea; background: #f0f4ff; }
+
+    .cours-header {
+        display: flex; align-items: center; gap: 15px; margin-bottom: 12px;
+    }
+    .cours-icone { font-size: 2.5rem; }
+    .cours-header h5 { margin: 0; font-weight: 700; color: #2d3748; }
+    .cours-header small { color: #718096; }
+
+    .cours-desc { color: #718096; font-size: 0.9rem; margin-bottom: 15px; }
+
+    .niveau-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; margin-left: auto; }
+    .niveau-debutant      { background: #d4edda; color: #155724; }
+    .niveau-intermediaire { background: #fff3cd; color: #856404; }
+    .niveau-avance        { background: #f8d7da; color: #721c24; }
+
+    .cours-buttons { display: flex; gap: 10px; }
+
+    .btn-cours {
+        flex: 1; padding: 10px; text-align: center;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border-radius: 10px; text-decoration: none;
+        font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-cours:hover { opacity: 0.85; color: white; }
+
+    .btn-valider-cours {
+        flex: 1; padding: 10px; border: 2px solid #667eea;
+        border-radius: 10px; background: white; color: #667eea;
+        font-weight: 600; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-valider-cours:hover { background: #667eea; color: white; }
+    .btn-valider-cours.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border-color: transparent;
+    }
+
+    .done-msg {
+        margin-top: 12px; padding: 10px; background: #d4edda;
+        border-radius: 10px; color: #155724; font-weight: 600; font-size: 0.9rem;
+    }
+    .btn-undo {
+        margin-left: 8px; background: none; border: 1px solid #155724;
+        border-radius: 8px; padding: 2px 8px; font-size: 0.8rem;
+        color: #155724; cursor: pointer;
+    }
+
+    .btn-progression {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; padding: 14px 35px; border-radius: 30px;
+        text-decoration: none; font-weight: 600; font-size: 1.1rem;
+        transition: opacity 0.3s;
+    }
+    .btn-progression:hover { opacity: 0.9; color: white; }
+
+    main { padding: 0 !important; }
+    footer {
+        background-color: #333 !important; color: white !important;
+        text-align: center !important; padding: 1rem !important;
+        margin-top: 0 !important;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const total = {{ cours|length }};
+    let done = new Set();
+
+    function validerCours(id) {
+        done.add(id);
+        document.getElementById('cours-' + id).classList.add('done');
+        document.getElementById('btn-' + id).classList.add('active');
+        document.getElementById('done-' + id).classList.remove('d-none');
+        updateProgress();
+    }
+
+    function annulerCours(id) {
+        done.delete(id);
+        document.getElementById('cours-' + id).classList.remove('done');
+        document.getElementById('btn-' + id).classList.remove('active');
+        document.getElementById('done-' + id).classList.add('d-none');
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const count = done.size;
+        const pct = Math.round((count / total) * 100);
+        document.getElementById('progress-label').textContent = count + ' / ' + total;
+        document.getElementById('progress-bar').style.width = pct + '%';
+    }
+</script>
+{% endblock %}

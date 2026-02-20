@@ -1,0 +1,90 @@
+<nav class="main-nav">
+    <div class="nav-container">
+        <div class="nav-brand">
+            <a href="{{ path('app_home') }}">Portfolio</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ path('app_home') }}">Accueil</a></li>
+            <li><a href="{{ path('app_random') }}">Citation</a></li>
+            <li><a href="{{ path('app_projets') }}">Projets</a></li>
+            <li><a href="{{ path('app_contact') }}">Contact</a></li>
+            <li><a href="{{ path('app_about') }}">À propos</a></li>
+            
+        </ul>
+    </div>
+</nav>
+
+<style>
+    .main-nav {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+    
+    .nav-brand a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+        padding: 20px 0;
+        display: block;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-brand a:hover {
+        transform: scale(1.05);
+    }
+    
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 5px;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .nav-links li a {
+        color: white;
+        text-decoration: none;
+        padding: 20px 20px;
+        display: block;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        position: relative;
+    }
+    
+    .nav-links li a:hover {
+        background: rgba(255,255,255,0.2);
+        transform: translateY(-2px);
+    }
+    
+    .nav-links li a::after {
+        content: '';
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 30px;
+        height: 3px;
+        background: white;
+        border-radius: 2px;
+        transition: transform 0.3s ease;
+    }
+    
+    .nav-links li a:hover::after {
+        transform: translateX(-50%) scaleX(1);
+    }
+</style>

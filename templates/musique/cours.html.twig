@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ cours.titre }}{% endblock %}
+
+{% block main %}
+
+<div class="musique-hero">
+    <a href="{{ path('app_demo_musique') }}" class="btn-retour">← Retour aux cours</a>
+    <div class="cours-icone">{{ cours.icone }}</div>
+    <span class="niveau-badge niveau-{{ cours.niveau|lower|replace({' ': '-', 'é': 'e'}) }}">
+        {{ cours.niveau }}
+    </span>
+    <h1>{{ cours.titre }}</h1>
+    <p>⏱ Durée : {{ cours.duree }}</p>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+            <div class="detail-card">
+                <h3>📋 Description du cours</h3>
+                <p>{{ cours.description }}</p>
+            </div>
+
+            <div class="detail-card mt-4">
+                <h3>🎯 Objectifs</h3>
+                <ul class="objectif-list">
+                    {% for obj in cours.objectifs %}
+                        <li>✅ {{ obj }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="detail-card mt-4 text-center">
+                <h3>Tu as terminé ce cours ?</h3>
+                <p class="text-muted">Marque-le comme complété pour suivre ta progression</p>
+                <button class="btn-valider" id="btn-valider" onclick="valider()">
+                    ✅ Marquer comme complété
+                </button>
+                <div class="done-msg d-none" id="done-msg">
+                    🎉 Bravo ! Cours complété !
+                    <a href="{{ path('app_demo_musique') }}" class="btn-retour-cours">
+                        Retour aux cours →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="detail-card sidebar-card">
+                <h3>📊 Infos du cours</h3>
+                <ul class="info-list">
+                    <li><strong>Durée :</strong> {{ cours.duree }}</li>
+                    <li><strong>Niveau :</strong> {{ cours.niveau }}</li>
+                </ul>
+                <hr>
+                <a href="{{ path('app_demo_musique_progression') }}" class="btn-progression">
+                    📈 Ma progression
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .musique-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; padding: 80px 20px 50px; text-align: center;
+    }
+    .musique-hero h1 { font-size: 2.2rem; font-weight: 700; margin-top: 15px; }
+    .musique-hero p  { opacity: 0.85; }
+
+    .btn-retour {
+        display: inline-block; background: rgba(255,255,255,0.2);
+        color: white; padding: 8px 18px; border-radius: 20px;
+        text-decoration: none; font-size: 0.9rem; margin-bottom: 20px;
+        transition: background 0.3s;
+    }
+    .btn-retour:hover { background: rgba(255,255,255,0.35); color: white; }
+
+    .cours-icone { font-size: 4rem; margin-bottom: 15px; }
+
+    .niveau-badge { padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .niveau-debutant      { background: #d4edda; color: #155724; }
+    .niveau-intermediaire { background: #fff3cd; color: #856404; }
+    .niveau-avance        { background: #f8d7da; color: #721c24; }
+
+    .detail-card {
+        background: white; border-radius: 16px; padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07); border: 1px solid #f0f0f0;
+    }
+    .detail-card h3 { font-size: 1.2rem; font-weight: 700; color: #2d3748; margin-bottom: 15px; }
+    .detail-card p  { color: #718096; line-height: 1.8; }
+
+    .objectif-list { list-style: none; padding: 0; }
+    .objectif-list li {
+        color: #4a5568; padding: 8px 0;
+        border-bottom: 1px solid #f7f7f7; font-size: 0.95rem;
+    }
+
+    .sidebar-card { position: sticky; top: 20px; }
+    .info-list { list-style: none; padding: 0; }
+    .info-list li { padding: 8px 0; color: #4a5568; border-bottom: 1px solid #f7f7f7; }
+
+    .btn-valider {
+        padding: 14px 35px; background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border: none; border-radius: 30px;
+        font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: opacity 0.3s;
+    }
+    .btn-valider:hover { opacity: 0.85; }
+
+    .done-msg {
+        margin-top: 20px; padding: 15px; background: #d4edda;
+        border-radius: 10px; color: #155724; font-weight: 600;
+    }
+
+    .btn-retour-cours {
+        display: inline-block; margin-top: 10px;
+        background: #667eea; color: white; padding: 8px 20px;
+        border-radius: 20px; text-decoration: none; font-size: 0.9rem;
+    }
+
+    .btn-progression {
+        display: block; text-align: center;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; padding: 12px; border-radius: 10px;
+        text-decoration: none; font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-progression:hover { opacity: 0.85; color: white; }
+
+    main { padding: 0 !important; }
+    footer {
+        background-color: #333 !important; color: white !important;
+        text-align: center !important; padding: 1rem !important; margin-top: 0 !important;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function valider() {
+        document.getElementById('btn-valider').classList.add('d-none');
+        document.getElementById('done-msg').classList.remove('d-none');
+    }
+</script>
+{% endblock %}

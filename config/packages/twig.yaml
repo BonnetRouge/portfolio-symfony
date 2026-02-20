@@ -1,0 +1,8 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+    
+    globals:
+        site_name: 'Mon Portfolio'
+        site_copyright: '© 2025 David - Tous droits réservés'
+        site_author: 'Bié'

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Citation{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .quote-hero {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 60px;
+    }
+    
+    .quote-hero h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        margin: 0;
+    }
+    
+    .quote-container {
+        max-width: 800px;
+        margin: 60px auto;
+        padding: 60px 40px;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        position: relative;
+        text-align: center;
+    }
+    
+    .quote-container::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 30px;
+        font-size: 120px;
+        color: #f5576c;
+        opacity: 0.2;
+        font-family: Georgia, serif;
+    }
+    
+    .quote-text {
+        font-size: 2rem;
+        font-style: italic;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+        font-family: Georgia, serif;
+    }
+    
+    .quote-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="quote-hero">
+    <div class="container">
+        <h1>💭 Citation du jour</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="quote-container">
+        <div class="quote-icon">✨</div>
+        <p class="quote-text">{{ quote }}</p>
+    </div>
+</div>
+{% endblock %}

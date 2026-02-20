@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sport Tracker{% endblock %}
+
+{% block main %}
+
+<div class="sport-hero">
+    <h1>🏃 Mon Espace Sport</h1>
+    <p>Sélectionne les sports que tu as pratiqués et suis ta progression</p>
+    <div class="hero-stats">
+        <div class="stat-item">
+            <span id="count-done">0</span>
+            <small>Complétés</small>
+        </div>
+        <div class="stat-item">
+            <span id="total-sports">{{ sports|length }}</span>
+            <small>Sports disponibles</small>
+        </div>
+        <div class="stat-item">
+            <span id="progress-pct">0%</span>
+            <small>Progression</small>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="progress-section mb-5">
+        <div class="d-flex justify-content-between mb-2">
+            <strong>Ta progression globale</strong>
+            <span id="progress-label">0 / {{ sports|length }}</span>
+        </div>
+        <div class="progress" style="height: 20px; border-radius: 10px;">
+            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px;">
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mb-4">🎯 Liste des sports</h2>
+    <div class="row g-4">
+        {% for sport in sports %}
+        <div class="col-md-4 col-sm-6">
+            <div class="sport-card" id="sport-{{ sport.id }}">
+                <div class="sport-icon">{{ sport.icone }}</div>
+                <div class="sport-info">
+                    <h5>{{ sport.nom }}</h5>
+                    <p>{{ sport.description }}</p>
+                    <span class="niveau-badge niveau-{{ sport.niveau|lower|replace({' ': '-', 'é': 'e', 'è': 'e'}) }}">
+                        {{ sport.niveau }}
+                    </span>
+                </div>
+
+                
+                <div class="btn-group-sport" id="default-{{ sport.id }}">
+                    <button class="btn-commencer" onclick="commencer({{ sport.id }})">
+                        ▶ Commencer
+                    </button>
+                </div>
+
+                
+                <div class="btn-group-sport d-none" id="confirm-{{ sport.id }}">
+                    <button class="btn-valider" onclick="valider({{ sport.id }})">
+                        ✅ Valider
+                    </button>
+                    <button class="btn-annuler" onclick="annuler({{ sport.id }})">
+                        ✖ Annuler
+                    </button>
+                </div>
+
+                
+                <div class="done-msg d-none" id="done-{{ sport.id }}">
+                    🎉 Sport complété !
+                    <button class="btn-undo" onclick="annuler({{ sport.id }})">Annuler</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{{ path('app_demo_sport_partenaires') }}" class="btn-partenaires">
+            👥 Trouver des partenaires
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .sport-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 20px 50px;
+        text-align: center;
+    }
+    .sport-hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+    .sport-hero p  { font-size: 1.1rem; opacity: 0.85; margin-bottom: 30px; }
+
+    .hero-stats { display: flex; justify-content: center; gap: 40px; margin-top: 20px; }
+    .stat-item { text-align: center; }
+    .stat-item span { display: block; font-size: 2rem; font-weight: 700; }
+    .stat-item small { opacity: 0.8; font-size: 0.85rem; }
+
+    .progress-section {
+        background: white; border-radius: 16px;
+        padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+
+    .sport-card {
+        background: white; border-radius: 16px; padding: 25px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        border: 2px solid #f0f0f0;
+        transition: all 0.3s ease; text-align: center;
+    }
+    .sport-card.en-cours { border-color: #f6ad55; background: #fffbf0; }
+    .sport-card.done     { border-color: #667eea; background: #f0f4ff; }
+
+    .sport-icon { font-size: 3rem; margin-bottom: 15px; }
+    .sport-info h5 { font-weight: 700; color: #2d3748; margin-bottom: 8px; }
+    .sport-info p  { color: #718096; font-size: 0.9rem; margin-bottom: 10px; }
+
+    .niveau-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+    .niveau-debutant      { background: #d4edda; color: #155724; }
+    .niveau-intermediaire { background: #fff3cd; color: #856404; }
+    .niveau-avance        { background: #f8d7da; color: #721c24; }
+
+    .btn-group-sport { margin-top: 15px; display: flex; gap: 8px; justify-content: center; }
+
+    .btn-commencer {
+        width: 100%; padding: 10px; border: 2px solid #667eea;
+        border-radius: 10px; background: white; color: #667eea;
+        font-weight: 600; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-commencer:hover { background: #667eea; color: white; }
+
+    .btn-valider {
+        flex: 1; padding: 10px; border: none; border-radius: 10px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; font-weight: 600; cursor: pointer; transition: opacity 0.3s;
+    }
+    .btn-valider:hover { opacity: 0.85; }
+
+    .btn-annuler {
+        flex: 1; padding: 10px; border: 2px solid #e53e3e;
+        border-radius: 10px; background: white; color: #e53e3e;
+        font-weight: 600; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-annuler:hover { background: #e53e3e; color: white; }
+
+    .done-msg {
+        margin-top: 15px; padding: 10px; background: #d4edda;
+        border-radius: 10px; color: #155724; font-weight: 600; font-size: 0.9rem;
+    }
+    .btn-undo {
+        margin-left: 8px; background: none; border: 1px solid #155724;
+        border-radius: 8px; padding: 2px 8px; font-size: 0.8rem;
+        color: #155724; cursor: pointer;
+    }
+
+    .btn-partenaires {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; padding: 14px 35px; border-radius: 30px;
+        text-decoration: none; font-weight: 600; font-size: 1.1rem;
+        transition: opacity 0.3s;
+    }
+    .btn-partenaires:hover { opacity: 0.9; color: white; }
+
+    footer {
+    background-color: #333 !important;
+    color: white !important;
+    text-align: center !important;
+    padding: 1rem !important;
+    margin-top: 0 !important;
+}
+
+main {
+    padding: 0 !important;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const total = {{ sports|length }};
+    let done = new Set();
+
+    function commencer(id) {
+        document.getElementById('sport-' + id).classList.add('en-cours');
+        document.getElementById('default-' + id).classList.add('d-none');
+        document.getElementById('confirm-' + id).classList.remove('d-none');
+    }
+
+    function valider(id) {
+        done.add(id);
+        document.getElementById('sport-' + id).classList.remove('en-cours');
+        document.getElementById('sport-' + id).classList.add('done');
+        document.getElementById('confirm-' + id).classList.add('d-none');
+        document.getElementById('done-' + id).classList.remove('d-none');
+        updateProgress();
+    }
+
+    function annuler(id) {
+        done.delete(id);
+        document.getElementById('sport-' + id).classList.remove('en-cours', 'done');
+        document.getElementById('default-' + id).classList.remove('d-none');
+        document.getElementById('confirm-' + id).classList.add('d-none');
+        document.getElementById('done-' + id).classList.add('d-none');
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const count = done.size;
+        const pct = Math.round((count / total) * 100);
+        document.getElementById('count-done').textContent = count;
+        document.getElementById('progress-pct').textContent = pct + '%';
+        document.getElementById('progress-label').textContent = count + ' / ' + total;
+        document.getElementById('progress-bar').style.width = pct + '%';
+    }
+</script>
+{% endblock %}

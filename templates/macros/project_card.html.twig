@@ -1,0 +1,20 @@
+
+{% macro card(projet) %}
+    <div class="projet-card {% if projet.featured %}featured{% endif %}">
+        {% if projet.featured %}
+            <span class="badge">⭐ Projet phare</span>
+        {% endif %}
+        
+        <h2>{{ projet.titre|upper }}</h2>
+        <p class="description">{{ projet.description }}</p>
+        
+        <div class="technologies">
+            <strong>Technologies :</strong>
+            {% for tech in projet.technologies %}
+                <span class="tech-tag">{{ tech|lower }}</span>
+            {% endfor %}
+        </div>
+        
+        <p class="date">📅 {{ projet.date|date('d/m/Y') }}</p>
+    </div>
+{% endmacro %}

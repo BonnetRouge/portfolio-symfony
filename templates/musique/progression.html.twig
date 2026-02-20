@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma Progression Musicale{% endblock %}
+
+{% block main %}
+
+<div class="musique-hero">
+    <h1>📈 Ma Progression</h1>
+    <p>Suis l'avancement de ton apprentissage musical</p>
+</div>
+
+<div class="container my-5">
+
+    <div class="progress-section mb-5">
+        <div class="d-flex justify-content-between mb-2">
+            <strong>Progression globale</strong>
+            <span id="progress-label">0 / {{ cours|length }}</span>
+        </div>
+        <div class="progress" style="height: 20px; border-radius: 10px;">
+            <div id="progress-bar" class="progress-bar" role="progressbar"
+                 style="width: 0%; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for cour in cours %}
+        <div class="col-md-6">
+            <div class="progression-card" id="card-{{ cour.id }}">
+                <div class="d-flex align-items-center gap-3">
+                    <span style="font-size: 2rem;">{{ cour.icone }}</span>
+                    <div class="flex-grow-1">
+                        <h5>{{ cour.titre }}</h5>
+                        <small>⏱ {{ cour.duree }} · {{ cour.niveau }}</small>
+                    </div>
+                    <span class="statut" id="statut-{{ cour.id }}">⏳ Non commencé</span>
+                </div>
+                <div class="mt-3 d-flex gap-2">
+                    <button class="btn-valider-prog" onclick="valider({{ cour.id }})">
+                        ✅ Marquer complété
+                    </button>
+                    <a href="{{ path('app_demo_musique_cours', {id: cour.id}) }}" class="btn-voir-cours">
+                        ▶ Voir le cours
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{{ path('app_demo_musique') }}" class="btn-retour-catalogue">
+            ← Retour au catalogue
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .musique-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; padding: 80px 20px 50px; text-align: center;
+    }
+    .musique-hero h1 { font-size: 2.5rem; font-weight: 700; }
+    .musique-hero p  { opacity: 0.85; }
+
+    .progress-section {
+        background: white; border-radius: 16px;
+        padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+
+    .progression-card {
+        background: white; border-radius: 16px; padding: 25px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        border: 2px solid #f0f0f0; transition: all 0.3s;
+    }
+    .progression-card.done { border-color: #667eea; background: #f0f4ff; }
+    .progression-card h5 { font-weight: 700; color: #2d3748; margin: 0; }
+    .progression-card small { color: #718096; }
+
+    .statut { font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+
+    .btn-valider-prog {
+        flex: 1; padding: 10px; background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border: none; border-radius: 10px;
+        font-weight: 600; cursor: pointer; transition: opacity 0.3s;
+    }
+    .btn-valider-prog:hover { opacity: 0.85; }
+
+    .btn-voir-cours {
+        flex: 1; padding: 10px; text-align: center; border: 2px solid #667eea;
+        border-radius: 10px; color: #667eea; text-decoration: none;
+        font-weight: 600; transition: all 0.3s;
+    }
+    .btn-voir-cours:hover { background: #667eea; color: white; }
+
+    .btn-retour-catalogue {
+        display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; padding: 14px 35px; border-radius: 30px;
+        text-decoration: none; font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-retour-catalogue:hover { opacity: 0.9; color: white; }
+
+    main { padding: 0 !important; }
+    footer {
+        background-color: #333 !important; color: white !important;
+        text-align: center !important; padding: 1rem !important; margin-top: 0 !important;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const total = {{ cours|length }};
+    let done = new Set();
+
+    function valider(id) {
+        done.add(id);
+        document.getElementById('card-' + id).classList.add('done');
+        document.getElementById('statut-' + id).textContent = '✅ Complété';
+        document.getElementById('statut-' + id).style.color = '#155724';
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const count = done.size;
+        const pct = Math.round((count / total) * 100);
+        document.getElementById('progress-label').textContent = count + ' / ' + total;
+        document.getElementById('progress-bar').style.width = pct + '%';
+    }
+</script>
+{% endblock %}

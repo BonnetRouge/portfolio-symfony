@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .hero-home {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 120px 0;
+        text-align: center;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 60px;
+    }
+    
+    .hero-home h1 {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        animation: fadeInDown 1s ease;
+    }
+    
+    .hero-home h2 {
+        font-size: 1.8rem;
+        font-weight: 300;
+        margin-bottom: 30px;
+        animation: fadeInUp 1s ease;
+    }
+    
+    .highlight-box {
+        background: white;
+        color: #667eea;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin: 40px auto;
+        max-width: 600px;
+        animation: scaleIn 1s ease;
+    }
+    
+    .highlight-box p {
+        font-size: 1.5rem;
+        margin: 0;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="hero-home">
+    <div class="container">
+        <h1>{{ greeting() }}</h1>
+        <h2>Bienvenue sur mon portfolio Symfony</h2>
+    </div>
+</div>
+
+<div class="container">
+    <div class="highlight-box">
+        <p>Je suis David BIE, étudiant en développement web spécialisé dans la création de sites avec Symfony. Vous pouvez découvrir mon portfolio ainsi que mes sites fonctionnels dans la section projets.
+        </div>
+</div>
+{% endblock %}

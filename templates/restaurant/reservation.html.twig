@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation - Restaurant Le Gourmet{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .reservation-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        margin-bottom: 50px;
+    }
+    
+    .reservation-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        padding: 40px;
+        background: white;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 15px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-secondary {
+        border-radius: 50px;
+        padding: 10px 30px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="reservation-hero">
+    <div class="container text-center">
+        <h1 class="display-4">📅 Réservez votre table</h1>
+        <p class="lead">Un moment inoubliable vous attend</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="reservation-card">
+                <form>
+                    <div class="mb-4">
+                        <label for="nom" class="form-label">👤 Nom complet</label>
+                        <input type="text" class="form-control" id="nom" placeholder="Votre nom" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="email" class="form-label">📧 Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="votre@email.com" required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label for="date" class="form-label">📅 Date</label>
+                            <input type="date" class="form-control" id="date" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <label for="heure" class="form-label">🕐 Heure</label>
+                            <input type="time" class="form-control" id="heure" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="personnes" class="form-label">👥 Nombre de personnes</label>
+                        <select class="form-select" id="personnes" required>
+                            <option value="">Sélectionnez...</option>
+                            <option value="1">1 personne</option>
+                            <option value="2" selected>2 personnes</option>
+                            <option value="3">3 personnes</option>
+                            <option value="4">4 personnes</option>
+                            <option value="5">5 personnes</option>
+                            <option value="6+">6+ personnes</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 mb-3">
+                        ✅ Confirmer la réservation
+                    </button>
+                </form>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="{{ path('app_demo_restaurant') }}" class="btn btn-secondary">
+                    ← Retour au menu
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

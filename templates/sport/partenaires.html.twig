@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Partenaires d'entraînement{% endblock %}
+
+{% block main %}
+<div class="sport-hero">
+    <h1>👥 Trouver un partenaire</h1>
+    <p>Entraîne-toi avec d'autres sportifs près de chez toi</p>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+        {% for p in partenaires %}
+        <div class="col-md-4">
+            <div class="partenaire-card">
+                <div class="partenaire-avatar">{{ p.avatar }}</div>
+                <h5>{{ p.nom }}</h5>
+                <p>🏅 {{ p.sport }}</p>
+                <span class="niveau-badge niveau-{{ p.niveau|lower|replace({' ': '-', 'é': 'e'}) }}">
+                    {{ p.niveau }}
+                </span>
+
+                <button class="btn-message mt-3" onclick="ouvrirMessage({{ p.id }}, '{{ p.nom }}')">
+                    ✉️ Envoyer un message
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ path('app_demo_sport') }}" class="btn-retour">← Retour aux sports</a>
+    </div>
+</div>
+
+<div id="modal-overlay" class="modal-overlay d-none" onclick="fermerModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <h4 id="modal-titre">Message à</h4>
+        <textarea id="modal-message" rows="5" placeholder="Écris ton message ici..."></textarea>
+        <div class="modal-buttons">
+            <button class="btn-envoyer" onclick="envoyerMessage()">✉️ Envoyer</button>
+            <button class="btn-fermer" onclick="fermerModal()">✖ Fermer</button>
+        </div>
+        <div id="modal-success" class="d-none success-msg">
+            ✅ Message envoyé avec succès !
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .sport-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; padding: 80px 20px 50px; text-align: center;
+    }
+    .sport-hero h1 { font-size: 2.5rem; font-weight: 700; }
+    .sport-hero p  { font-size: 1.1rem; opacity: 0.85; }
+
+    .partenaire-card {
+        background: white; border-radius: 16px; padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        text-align: center; border: 1px solid #f0f0f0;
+        transition: transform 0.3s;
+    }
+    .partenaire-card:hover { transform: translateY(-5px); }
+
+    .partenaire-avatar { font-size: 3.5rem; margin-bottom: 15px; }
+    .partenaire-card h5 { font-weight: 700; color: #2d3748; margin-bottom: 5px; }
+    .partenaire-card p  { color: #718096; margin-bottom: 10px; }
+
+    .niveau-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+    .niveau-debutant      { background: #d4edda; color: #155724; }
+    .niveau-intermediaire { background: #fff3cd; color: #856404; }
+    .niveau-avance        { background: #f8d7da; color: #721c24; }
+
+    .btn-message {
+        display: block; width: 100%; padding: 10px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border: none; border-radius: 10px;
+        font-weight: 600; cursor: pointer; transition: opacity 0.3s;
+    }
+    .btn-message:hover { opacity: 0.85; }
+
+    .btn-retour {
+        display: inline-block; background: #667eea; color: white;
+        padding: 12px 30px; border-radius: 30px; text-decoration: none;
+        font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-retour:hover { opacity: 0.85; color: white; }
+
+    .modal-overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 9999;
+    }
+    .modal-overlay:not(.d-none) { display: flex !important; }
+
+    .modal-box {
+        background: white; border-radius: 16px;
+        padding: 35px; width: 90%; max-width: 500px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .modal-box h4 { font-weight: 700; color: #2d3748; margin-bottom: 15px; }
+
+    .modal-box textarea {
+        width: 100%; border: 2px solid #e2e8f0;
+        border-radius: 10px; padding: 12px;
+        font-size: 0.95rem; resize: none; outline: none;
+        transition: border-color 0.3s;
+    }
+    .modal-box textarea:focus { border-color: #667eea; }
+
+    .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
+
+    .btn-envoyer {
+        flex: 1; padding: 12px; background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border: none; border-radius: 10px;
+        font-weight: 600; cursor: pointer; transition: opacity 0.3s;
+    }
+    .btn-envoyer:hover { opacity: 0.85; }
+
+    .btn-fermer {
+        flex: 1; padding: 12px; background: white;
+        border: 2px solid #e53e3e; color: #e53e3e;
+        border-radius: 10px; font-weight: 600; cursor: pointer;
+    }
+    .btn-fermer:hover { background: #e53e3e; color: white; }
+
+    .success-msg {
+        margin-top: 15px; padding: 12px;
+        background: #d4edda; border-radius: 10px;
+        color: #155724; font-weight: 600; text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function ouvrirMessage(id, nom) {
+        document.getElementById('modal-titre').textContent = '✉️ Message à ' + nom;
+        document.getElementById('modal-message').value = '';
+        document.getElementById('modal-success').classList.add('d-none');
+        document.getElementById('modal-overlay').classList.remove('d-none');
+    }
+
+    function fermerModal() {
+        document.getElementById('modal-overlay').classList.add('d-none');
+    }
+
+    function envoyerMessage() {
+        const msg = document.getElementById('modal-message').value.trim();
+        if (!msg) {
+            alert('Écris un message avant d\'envoyer !');
+            return;
+        }
+        document.getElementById('modal-success').classList.remove('d-none');
+        document.getElementById('modal-message').value = '';
+        setTimeout(() => fermerModal(), 2000);
+    }
+</script>
+{% endblock %}

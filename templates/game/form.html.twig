@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un match{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Ajouter un match de football</h2>
+                </div>
+                <div class="card-body">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>✅ Succès !</strong> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(formulaire) }}
+                        
+                        {{ form_row(formulaire.homeTeam) }}
+                        {{ form_row(formulaire.awayTeam) }}
+                        {{ form_row(formulaire.date) }}
+                        {{ form_row(formulaire.stadium) }}
+                        {{ form_row(formulaire.competition) }}
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Ajouter le match
+                            </button>
+                        </div>
+
+                    {{ form_end(formulaire) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

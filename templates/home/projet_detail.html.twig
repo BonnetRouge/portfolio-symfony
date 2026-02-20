@@ -1,0 +1,201 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ projet.title }}{% endblock %}
+
+{% block main %}
+
+<div class="detail-hero">
+    <div class="container">
+        <a href="{{ path('app_projets') }}" class="btn-retour">← Retour aux projets</a>
+        <div class="hero-icon">
+            {% if projet.category == 'restaurant' %}🍽️
+            {% elseif projet.category == 'sport' %}⚽
+            {% elseif projet.category == 'musique' %}🎵
+            {% else %}💻
+            {% endif %}
+        </div>
+        <span class="detail-badge">{{ projet.category }}</span>
+        <h1>{{ projet.title }}</h1>
+        <p class="hero-desc">{{ projet.description }}</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+            <div class="detail-card">
+                <h3>📋 Description détaillée</h3>
+                <p>{{ projet.longDescription }}</p>
+            </div>
+
+            <div class="detail-card mt-4">
+                <h3>⚙️ Fonctionnalités principales</h3>
+                <ul class="feature-list">
+                    {% for feature in projet.features %}
+                        <li>✅ {{ feature }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="detail-card sidebar-card">
+                <h3>🛠️ Technologies</h3>
+                <div class="tech-tags">
+                    {% for tech in projet.technologies|split(', ') %}
+                        <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <div class="mt-3">
+                    {% if projet.demoUrl %}
+                        {% if projet.isDemoRoute %}
+                            <a href="{{ path(projet.demoUrl) }}" class="btn-demo">
+                                ▶ Voir le site
+                            </a>
+                        {% else %}
+                            <a href="{{ projet.demoUrl }}" target="_blank" class="btn-demo">
+                                🌐 Voir le site
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .detail-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 20px 50px;
+        text-align: center;
+    }
+
+    .btn-retour {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+        transition: background 0.3s;
+    }
+
+    .btn-retour:hover {
+        background: rgba(255,255,255,0.35);
+        color: white;
+    }
+
+    .hero-icon {
+        font-size: 4rem;
+        margin-bottom: 15px;
+    }
+
+    .detail-badge {
+        background: rgba(255,255,255,0.25);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .detail-hero h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    .hero-desc {
+        font-size: 1.1rem;
+        opacity: 0.85;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        border: 1px solid #f0f0f0;
+    }
+
+    .detail-card h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 15px;
+    }
+
+    .detail-card p {
+        color: #718096;
+        line-height: 1.8;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .feature-list li {
+        color: #4a5568;
+        padding: 8px 0;
+        border-bottom: 1px solid #f7f7f7;
+        font-size: 0.95rem;
+    }
+
+    .sidebar-card {
+        position: sticky;
+        top: 20px;
+    }
+
+    .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .tech-tag {
+        background: #f0f4ff;
+        color: #667eea;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .btn-demo {
+        display: block;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-align: center;
+        padding: 12px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: opacity 0.3s;
+    }
+
+    .btn-demo:hover {
+        opacity: 0.9;
+        color: white;
+    }
+</style>
+{% endblock %}
