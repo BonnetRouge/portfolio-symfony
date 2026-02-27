@@ -23,7 +23,13 @@
         </div>
     </div>
 
-    <h2 class="mb-4">📚 Catalogue de cours</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📚 Catalogue de cours</h2>
+        <a href="{{ path('app_cours_crud_new') }}" class="btn-ajouter">
+            ➕ Ajouter un cours
+        </a>
+    </div>
+
     <div class="row g-4">
         {% for cour in cours %}
         <div class="col-md-6">
@@ -51,6 +57,10 @@
                     🎉 Cours complété !
                     <button class="btn-undo" onclick="annulerCours({{ cour.id }})">Annuler</button>
                 </div>
+                <button type="button" class="btn-supprimer"
+                    onclick="ouvrirModal({{ cour.id }}, '{{ cour.titre }}', '{{ csrf_token('delete' ~ cour.id) }}')">
+                    🗑 Supprimer
+                </button>
             </div>
         </div>
         {% endfor %}
@@ -60,6 +70,21 @@
         <a href="{{ path('app_demo_musique_progression') }}" class="btn-progression">
             📈 Voir ma progression
         </a>
+    </div>
+</div>
+
+<div id="modal-supprimer" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div class="modal-box">
+        <div class="modal-icon">🗑</div>
+        <h4>Supprimer un cours</h4>
+        <p>Êtes-vous sûr de vouloir supprimer <strong id="modal-nom-cours"></strong> ?</p>
+        <form id="modal-form" method="post">
+            <input type="hidden" name="_token" id="modal-token">
+            <div class="modal-btns">
+                <button type="submit" class="modal-btn-oui">Oui, supprimer</button>
+                <button type="button" onclick="fermerModal()" class="modal-btn-non">Non, annuler</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -103,6 +128,13 @@
 
     .cours-buttons { display: flex; gap: 10px; }
 
+    .btn-ajouter {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; padding: 10px 20px; border-radius: 20px;
+        text-decoration: none; font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-ajouter:hover { opacity: 0.85; color: white; }
+
     .btn-cours {
         flex: 1; padding: 10px; text-align: center;
         background: linear-gradient(135deg, #667eea, #764ba2);
@@ -132,6 +164,14 @@
         color: #155724; cursor: pointer;
     }
 
+    .btn-supprimer {
+        margin-top: 10px; width: 100%; padding: 8px;
+        border: 2px solid #e53e3e; border-radius: 10px;
+        background: white; color: #e53e3e;
+        font-weight: 600; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-supprimer:hover { background: #e53e3e; color: white; }
+
     .btn-progression {
         display: inline-block;
         background: linear-gradient(135deg, #667eea, #764ba2);
@@ -140,6 +180,34 @@
         transition: opacity 0.3s;
     }
     .btn-progression:hover { opacity: 0.9; color: white; }
+
+    .modal-box {
+        background: white; border-radius: 20px; padding: 40px;
+        text-align: center; max-width: 420px; width: 90%;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to   { transform: scale(1);   opacity: 1; }
+    }
+    .modal-icon { font-size: 3rem; margin-bottom: 15px; }
+    .modal-box h4 { font-size: 1.4rem; font-weight: 700; color: #2d3748; margin-bottom: 10px; }
+    .modal-box p  { color: #718096; margin-bottom: 25px; font-size: 1rem; }
+    .modal-btns { display: flex; gap: 15px; justify-content: center; }
+    .modal-btn-oui {
+        padding: 12px 30px; background: linear-gradient(135deg, #e53e3e, #c53030);
+        color: white; border: none; border-radius: 10px;
+        font-weight: 600; cursor: pointer; font-size: 1rem; transition: opacity 0.3s;
+    }
+    .modal-btn-oui:hover { opacity: 0.85; }
+    .modal-btn-non {
+        padding: 12px 30px; background: white;
+        border: 2px solid #667eea; color: #667eea;
+        border-radius: 10px; font-weight: 600;
+        cursor: pointer; font-size: 1rem; transition: all 0.3s;
+    }
+    .modal-btn-non:hover { background: #667eea; color: white; }
 
     main { padding: 0 !important; }
     footer {
@@ -177,5 +245,20 @@
         document.getElementById('progress-label').textContent = count + ' / ' + total;
         document.getElementById('progress-bar').style.width = pct + '%';
     }
+
+    function ouvrirModal(id, titre, token) {
+        document.getElementById('modal-nom-cours').textContent = titre;
+        document.getElementById('modal-form').action = '/cours/crud/' + id;
+        document.getElementById('modal-token').value = token;
+        document.getElementById('modal-supprimer').style.display = 'flex';
+    }
+
+    function fermerModal() {
+        document.getElementById('modal-supprimer').style.display = 'none';
+    }
+
+    document.getElementById('modal-supprimer').addEventListener('click', function(e) {
+        if (e.target === this) fermerModal();
+    });
 </script>
 {% endblock %}

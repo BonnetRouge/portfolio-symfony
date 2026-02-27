@@ -12,111 +12,107 @@
         margin-bottom: 50px;
         border-radius: 0 0 50px 50px;
     }
-    
-    .menu-section {
-        margin-bottom: 60px;
-    }
-    
+    .menu-section { margin-bottom: 60px; }
     .menu-card {
-        border: none;
-        border-radius: 20px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        height: 100%;
-        background: white;
+        border: none; border-radius: 20px; overflow: hidden;
+        transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        height: 100%; background: white;
     }
-    
     .menu-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
-    
     .menu-card-image {
-        height: 220px;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        width: 100%;
+        height: 220px; background-size: cover;
+        background-position: center; position: relative; width: 100%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 5rem;
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     }
-    
     .menu-card-image::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.4) 100%);
+        content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.1) 100%);
     }
-    
     .price-tag {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: white;
-        color: #28a745;
-        padding: 10px 18px;
-        border-radius: 30px;
-        font-weight: bold;
-        font-size: 1.1rem;
-        box-shadow: 0 3px 15px rgba(0,0,0,0.3);
-        z-index: 1;
+        position: absolute; top: 15px; right: 15px;
+        background: white; color: #28a745;
+        padding: 10px 18px; border-radius: 30px;
+        font-weight: bold; font-size: 1.1rem;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.3); z-index: 1;
     }
-    
-    .card-body {
-        padding: 25px;
-        text-align: center;
-    }
-    
-    .card-title {
-        font-size: 1.3rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    
-    .text-muted {
-        color: #888 !important;
-        font-size: 0.9rem;
-    }
-    
+    .card-body { padding: 25px; text-align: center; }
+    .card-title { font-size: 1.3rem; font-weight: bold; color: #333; margin-bottom: 10px; }
+    .text-muted { color: #888 !important; font-size: 0.9rem; }
     .section-title {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 40px;
-        position: relative;
-        display: inline-block;
+        font-size: 2.5rem; font-weight: bold; color: #333;
+        margin-bottom: 40px; position: relative; display: inline-block;
     }
-    
     .section-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        width: 60%;
-        height: 4px;
-        background: linear-gradient(to right, #667eea, #764ba2);
-        border-radius: 2px;
+        content: ''; position: absolute; bottom: -10px; left: 0;
+        width: 60%; height: 4px;
+        background: linear-gradient(to right, #667eea, #764ba2); border-radius: 2px;
     }
-    
     .cta-button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        padding: 18px 50px;
-        font-size: 1.2rem;
-        border-radius: 50px;
-        transition: all 0.3s ease;
+        border: none; padding: 18px 50px; font-size: 1.2rem;
+        border-radius: 50px; transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        color: white;
-        text-decoration: none;
+        color: white; text-decoration: none;
     }
-    
     .cta-button:hover {
         transform: scale(1.05);
-        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
-        color: white;
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6); color: white;
+    }
+    .btn-ajouter {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; padding: 10px 20px; border-radius: 20px;
+        text-decoration: none; font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-ajouter:hover { opacity: 0.85; color: white; }
+    .btn-supprimer {
+        margin-top: 10px; width: 100%; padding: 8px;
+        border: 2px solid #e53e3e; border-radius: 10px;
+        background: white; color: #e53e3e;
+        font-weight: 600; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-supprimer:hover { background: #e53e3e; color: white; }
+    .empty-section {
+        text-align: center; padding: 40px;
+        background: #f8f9fa; border-radius: 20px;
+        color: #718096;
+    }
+    .modal-box {
+        background: white; border-radius: 20px; padding: 40px;
+        text-align: center; max-width: 420px; width: 90%;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to   { transform: scale(1);   opacity: 1; }
+    }
+    .modal-icon { font-size: 3rem; margin-bottom: 15px; }
+    .modal-box h4 { font-size: 1.4rem; font-weight: 700; color: #2d3748; margin-bottom: 10px; }
+    .modal-box p  { color: #718096; margin-bottom: 25px; font-size: 1rem; }
+    .modal-btns { display: flex; gap: 15px; justify-content: center; }
+    .modal-btn-oui {
+        padding: 12px 30px; background: linear-gradient(135deg, #e53e3e, #c53030);
+        color: white; border: none; border-radius: 10px;
+        font-weight: 600; cursor: pointer; font-size: 1rem; transition: opacity 0.3s;
+    }
+    .modal-btn-oui:hover { opacity: 0.85; }
+    .modal-btn-non {
+        padding: 12px 30px; background: white;
+        border: 2px solid #667eea; color: #667eea;
+        border-radius: 10px; font-weight: 600;
+        cursor: pointer; font-size: 1rem; transition: all 0.3s;
+    }
+    .modal-btn-non:hover { background: #667eea; color: white; }
+    main { padding: 0 !important; }
+    footer {
+        background-color: #333 !important; color: white !important;
+        text-align: center !important; padding: 1rem !important;
+        margin-top: 0 !important;
     }
 </style>
 {% endblock %}
@@ -130,78 +126,95 @@
 </div>
 
 <div class="container my-5">
-    <!-- Menu Entrées -->
+
     <div class="menu-section">
-        <h2 class="section-title">🥗 Entrées</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title">🥗 Entrées</h2>
+            <a href="{{ path('app_plat_crud_new') }}" class="btn-ajouter">➕ Ajouter un plat</a>
+        </div>
         <div class="row mt-4">
-            {% set entreeImages = [
-                'https://turbigo-gourmandises.fr/wp-content/uploads/2011/06/salade-caesar.jpg',
-                'https://www.lacuisinedaurelie.com/wp-content/uploads/2023/01/IMG_8530-1536x1024.jpg',
-                'https://i.pinimg.com/originals/dc/c4/47/dcc447ea31adeaf1b062aa97b1f576c2.png'
-            ] %}
-            {% for key, plat in menu.entrees %}
-            <div class="col-md-4 mb-4">
-                <div class="menu-card">
-                    <div class="menu-card-image" style="background-image: url('{{ entreeImages[key] }}')">
-                        <span class="price-tag">{{ plat.prix }}€</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ plat.nom }}</h5>
-                        <p class="text-muted small">Fraîcheur et saveur garanties</p>
+            {% if menu.entrees is empty %}
+                <div class="empty-section">Aucune entrée pour le moment.</div>
+            {% else %}
+                {% for plat in menu.entrees %}
+                <div class="col-md-4 mb-4">
+                    <div class="menu-card">
+                        <div class="menu-card-image">
+                            <span style="position:relative; z-index:1;">{{ plat.icone }}</span>
+                            <span class="price-tag">{{ plat.prix }}€</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ plat.nom }}</h5>
+                            <p class="text-muted small">{{ plat.description }}</p>
+                            <button type="button" class="btn-supprimer"
+                                onclick="ouvrirModal({{ plat.id }}, '{{ plat.nom }}', '{{ csrf_token('delete' ~ plat.id) }}')">
+                                🗑 Supprimer
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
-    <!-- Menu Plats -->
     <div class="menu-section">
-        <h2 class="section-title">🍖 Plats principaux</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title">🍖 Plats principaux</h2>
+        </div>
         <div class="row mt-4">
-            {% set platImages = [
-                'https://www.seriouseats.com/thmb/RotEhw0GYGyUEVV2M25KRT4oLqQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20241016-SteakFrites-AmandaSuarez-20-51fb9d120d7e4ff0a0260d6b1ae3903c.jpg',
-                'https://barbecue-conseil.fr/wp-content/uploads/Saumon-au-barbecue-d%C3%A9licieux-servi-sur-ardoise-2048x1365.jpg',
-                'https://i.pinimg.com/originals/ba/e4/d2/bae4d244764af3c7a1ba618ff9e4b390.jpg'
-            ] %}
-            {% for key, plat in menu.plats %}
-            <div class="col-md-4 mb-4">
-                <div class="menu-card">
-                    <div class="menu-card-image" style="background-image: url('{{ platImages[key] }}')">
-                        <span class="price-tag">{{ plat.prix }}€</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ plat.nom }}</h5>
-                        <p class="text-muted small">Nos spécialités du chef</p>
+            {% if menu.plats is empty %}
+                <div class="empty-section">Aucun plat principal pour le moment.</div>
+            {% else %}
+                {% for plat in menu.plats %}
+                <div class="col-md-4 mb-4">
+                    <div class="menu-card">
+                        <div class="menu-card-image">
+                            <span style="position:relative; z-index:1;">{{ plat.icone }}</span>
+                            <span class="price-tag">{{ plat.prix }}€</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ plat.nom }}</h5>
+                            <p class="text-muted small">{{ plat.description }}</p>
+                            <button type="button" class="btn-supprimer"
+                                onclick="ouvrirModal({{ plat.id }}, '{{ plat.nom }}', '{{ csrf_token('delete' ~ plat.id) }}')">
+                                🗑 Supprimer
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
-    <!-- Menu Desserts -->
     <div class="menu-section">
-        <h2 class="section-title">🍰 Desserts</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title">🍰 Desserts</h2>
+        </div>
         <div class="row mt-4">
-            {% set dessertImages = [
-                'https://img2.rtve.es/imagenes/asi-se-hace-tiramisu-receta-mas-facil-rapida-jugosa/1684846876915.jpg',
-                'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=500',
-                'https://la-boutique.domaine-du-val-d-auzon.com/_media/img/xlarge/creme-brulee.jpg'
-            ] %}
-            {% for key, plat in menu.desserts %}
-            <div class="col-md-4 mb-4">
-                <div class="menu-card">
-                    <div class="menu-card-image" style="background-image: url('{{ dessertImages[key] }}')">
-                        <span class="price-tag">{{ plat.prix }}€</span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ plat.nom }}</h5>
-                        <p class="text-muted small">Pour une touche sucrée</p>
+            {% if menu.desserts is empty %}
+                <div class="empty-section">Aucun dessert pour le moment.</div>
+            {% else %}
+                {% for plat in menu.desserts %}
+                <div class="col-md-4 mb-4">
+                    <div class="menu-card">
+                        <div class="menu-card-image">
+                            <span style="position:relative; z-index:1;">{{ plat.icone }}</span>
+                            <span class="price-tag">{{ plat.prix }}€</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ plat.nom }}</h5>
+                            <p class="text-muted small">{{ plat.description }}</p>
+                            <button type="button" class="btn-supprimer"
+                                onclick="ouvrirModal({{ plat.id }}, '{{ plat.nom }}', '{{ csrf_token('delete' ~ plat.id) }}')">
+                                🗑 Supprimer
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
@@ -211,4 +224,38 @@
         </a>
     </div>
 </div>
+
+<div id="modal-supprimer" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div class="modal-box">
+        <div class="modal-icon">🗑</div>
+        <h4>Supprimer un plat</h4>
+        <p>Êtes-vous sûr de vouloir supprimer <strong id="modal-nom-plat"></strong> ?</p>
+        <form id="modal-form" method="post">
+            <input type="hidden" name="_token" id="modal-token">
+            <div class="modal-btns">
+                <button type="submit" class="modal-btn-oui">Oui, supprimer</button>
+                <button type="button" onclick="fermerModal()" class="modal-btn-non">Non, annuler</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function ouvrirModal(id, nom, token) {
+        document.getElementById('modal-nom-plat').textContent = nom;
+        document.getElementById('modal-form').action = '/plat/crud/' + id;
+        document.getElementById('modal-token').value = token;
+        document.getElementById('modal-supprimer').style.display = 'flex';
+    }
+
+    function fermerModal() {
+        document.getElementById('modal-supprimer').style.display = 'none';
+    }
+
+    document.getElementById('modal-supprimer').addEventListener('click', function(e) {
+        if (e.target === this) fermerModal();
+    });
+</script>
 {% endblock %}

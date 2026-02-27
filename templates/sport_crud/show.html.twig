@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ sport.nom }}{% endblock %}
+
+{% block main %}
+<div class="crud-hero">
+    <div style="font-size: 4rem;">{{ sport.icone }}</div>
+    <h1>{{ sport.nom }}</h1>
+    <p>{{ sport.description }}</p>
+</div>
+
+<div class="container my-5">
+    <div class="show-card">
+        <div class="show-row">
+            <span class="show-label">🏷 Nom</span>
+            <span class="show-value">{{ sport.nom }}</span>
+        </div>
+        <div class="show-row">
+            <span class="show-label">📝 Description</span>
+            <span class="show-value">{{ sport.description }}</span>
+        </div>
+        <div class="show-row">
+            <span class="show-label">👥 Nb Joueurs</span>
+            <span class="show-value">{{ sport.nbJoueurs }}</span>
+        </div>
+        <div class="show-row">
+            <span class="show-label">⭐ Niveau</span>
+            <span class="show-value">{{ sport.niveau }}</span>
+        </div>
+        <div class="show-row">
+            <span class="show-label">🎨 Icône</span>
+            <span class="show-value" style="font-size: 2rem;">{{ sport.icone }}</span>
+        </div>
+
+        <div class="show-actions">
+            <a href="{{ path('app_sport_crud_edit', {'id': sport.id}) }}" class="btn-edit">✏️ Modifier</a>
+            <a href="{{ path('app_sport_crud_index') }}" class="btn-retour">← Retour à la liste</a>
+            <a href="{{ path('app_demo_sport') }}" class="btn-retour">🏃 Voir la page sport</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .crud-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; padding: 60px 20px 40px; text-align: center;
+    }
+    .crud-hero h1 { font-size: 2rem; font-weight: 700; margin: 10px 0; }
+    .crud-hero p  { opacity: 0.85; font-size: 1rem; }
+
+    .show-card {
+        background: white; border-radius: 20px; padding: 40px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.08); max-width: 600px; margin: 0 auto;
+    }
+
+    .show-row {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 15px 0; border-bottom: 1px solid #f0f0f0;
+    }
+    .show-row:last-of-type { border-bottom: none; }
+    .show-label { font-weight: 600; color: #718096; }
+    .show-value { font-weight: 600; color: #2d3748; }
+
+    .show-actions {
+        display: flex; gap: 15px; margin-top: 30px;
+        flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn-edit {
+        padding: 10px 25px; background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border-radius: 10px; text-decoration: none;
+        font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-edit:hover { opacity: 0.85; color: white; }
+
+    .btn-retour {
+        padding: 10px 25px; border: 2px solid #667eea;
+        color: #667eea; border-radius: 10px; text-decoration: none;
+        font-weight: 600; transition: all 0.3s;
+    }
+    .btn-retour:hover { background: #667eea; color: white; }
+
+    main { padding: 0 !important; }
+</style>
+{% endblock %}

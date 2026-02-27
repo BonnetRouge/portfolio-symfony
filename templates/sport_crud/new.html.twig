@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un sport{% endblock %}
+
+{% block main %}
+<div class="crud-hero">
+    <h1>➕ Ajouter un sport</h1>
+    <p>Remplis le formulaire pour ajouter un nouveau sport</p>
+</div>
+
+<div class="container my-5">
+    <div class="crud-form-card">
+        {{ include('sport_crud/_form.html.twig') }}
+        <a href="{{ path('app_demo_sport') }}" class="btn-retour">← Retour à la liste</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .crud-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; padding: 60px 20px 40px; text-align: center;
+    }
+    .crud-hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+    .crud-hero p  { opacity: 0.85; font-size: 1rem; }
+
+    .crud-form-card {
+        background: white; border-radius: 20px; padding: 40px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.08); max-width: 600px; margin: 0 auto;
+    }
+
+    .crud-form-card .btn {
+        width: 100%; padding: 12px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border: none; border-radius: 10px;
+        font-weight: 600; font-size: 1rem; cursor: pointer;
+        transition: opacity 0.3s; margin-top: 10px;
+    }
+    .crud-form-card .btn:hover { opacity: 0.85; }
+
+    .crud-form-card .form-control {
+        border-radius: 10px; border: 2px solid #e2e8f0;
+        padding: 10px 15px; transition: border-color 0.3s;
+    }
+    .crud-form-card .form-control:focus { border-color: #667eea; box-shadow: none; }
+
+    .crud-form-card label { font-weight: 600; color: #2d3748; margin-bottom: 5px; }
+
+    .btn-retour {
+        display: inline-block; margin-top: 20px; color: #667eea;
+        text-decoration: none; font-weight: 600;
+        transition: opacity 0.3s;
+    }
+    .btn-retour:hover { opacity: 0.7; }
+
+    main { padding: 0 !important; }
+</style>
+{% endblock %}

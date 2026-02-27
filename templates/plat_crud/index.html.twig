@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des plats{% endblock %}
+
+{% block main %}
+<div class="crud-hero">
+    <h1>🍽️ Gestion des plats</h1>
+    <p>{{ plats|length }} plat(s) enregistré(s)</p>
+</div>
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📋 Liste des plats</h2>
+        <a href="{{ path('app_plat_crud_new') }}" class="btn-ajouter">➕ Ajouter un plat</a>
+    </div>
+
+    {% if plats is empty %}
+        <div class="empty-state">
+            <div style="font-size: 4rem;">🍽️</div>
+            <h4>Aucun plat enregistré</h4>
+            <p>Commence par ajouter ton premier plat !</p>
+            <a href="{{ path('app_plat_crud_new') }}" class="btn-ajouter">➕ Ajouter un plat</a>
+        </div>
+    {% else %}
+        <div class="table-card">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Icône</th>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Catégorie</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for plat in plats %}
+                    <tr>
+                        <td>{{ plat.id }}</td>
+                        <td style="font-size: 1.5rem;">{{ plat.icone }}</td>
+                        <td><strong>{{ plat.nom }}</strong></td>
+                        <td><span class="prix-badge">{{ plat.prix }}€</span></td>
+                        <td>
+                            {% if plat.categorie == 'entree' %}
+                                <span class="cat-badge cat-entree">🥗 Entrée</span>
+                            {% elseif plat.categorie == 'plat' %}
+                                <span class="cat-badge cat-plat">🍖 Plat</span>
+                            {% else %}
+                                <span class="cat-badge cat-dessert">🍰 Dessert</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ plat.description }}</td>
+                        <td>
+                            <a href="{{ path('app_plat_crud_show', {'id': plat.id}) }}" class="btn-action btn-voir">👁 Voir</a>
+                            <a href="{{ path('app_plat_crud_edit', {'id': plat.id}) }}" class="btn-action btn-edit">✏️ Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{{ path('app_demo_restaurant') }}" class="btn-retour">← Retour au restaurant</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .crud-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white; padding: 60px 20px 40px; text-align: center;
+    }
+    .crud-hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+    .crud-hero p  { opacity: 0.85; font-size: 1rem; }
+    .table-card {
+        background: white; border-radius: 20px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.08); overflow: hidden;
+    }
+    .table thead th {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; border: none; padding: 15px;
+    }
+    .table tbody td { padding: 15px; vertical-align: middle; }
+    .table tbody tr:hover { background: #f0f4ff; }
+    .btn-ajouter {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white; padding: 10px 20px; border-radius: 20px;
+        text-decoration: none; font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-ajouter:hover { opacity: 0.85; color: white; }
+    .btn-action {
+        padding: 5px 12px; border-radius: 8px;
+        text-decoration: none; font-size: 0.85rem;
+        font-weight: 600; margin-right: 5px; transition: opacity 0.3s;
+    }
+    .btn-voir { background: #e0f2fe; color: #0369a1; }
+    .btn-voir:hover { opacity: 0.8; color: #0369a1; }
+    .btn-edit { background: #fef9c3; color: #854d0e; }
+    .btn-edit:hover { opacity: 0.8; color: #854d0e; }
+    .prix-badge {
+        background: #d4edda; color: #155724;
+        padding: 4px 10px; border-radius: 20px; font-weight: 600;
+    }
+    .cat-badge {
+        padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+    }
+    .cat-entree  { background: #d4edda; color: #155724; }
+    .cat-plat    { background: #fff3cd; color: #856404; }
+    .cat-dessert { background: #f8d7da; color: #721c24; }
+    .empty-state {
+        text-align: center; padding: 60px 20px;
+        background: white; border-radius: 20px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+    }
+    .empty-state h4 { font-weight: 700; color: #2d3748; margin: 15px 0 10px; }
+    .empty-state p  { color: #718096; margin-bottom: 25px; }
+    .btn-retour {
+        display: inline-block; color: #667eea;
+        text-decoration: none; font-weight: 600; transition: opacity 0.3s;
+    }
+    .btn-retour:hover { opacity: 0.7; }
+    main { padding: 0 !important; }
+</style>
+{% endblock %}
